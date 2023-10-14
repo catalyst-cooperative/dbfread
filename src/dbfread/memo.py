@@ -13,7 +13,6 @@ import io
 from dbfread.ifiles import ifind
 from dbfread.struct_parser import StructParser
 
-
 VFPFileHeader = StructParser(
     'FPTHeader',
     '>LHH504s',
@@ -34,13 +33,13 @@ DB4MemoHeader = StructParser(
     ['reserved',  # Always 0xff 0xff 0x08 0x08.
      'length'])
 
-# Used for Visual FoxPro memos to distinguish binary from text memos.
 
 
 class VFPMemo(bytes):
     pass
 
 
+# Used for Visual FoxPro memos to distinguish binary from text memos.
 class BinaryMemo(VFPMemo):
     pass
 

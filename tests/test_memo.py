@@ -5,10 +5,10 @@ from dbfread.exceptions import MissingMemoFile
 
 def test_missing_memofile():
     with raises(MissingMemoFile):
-        DBF('testcases/no_memofile.dbf')
+        DBF('tests/cases/no_memofile.dbf')
 
     # This should succeed.
-    table = DBF('testcases/no_memofile.dbf', ignore_missing_memofile=True)
+    table = DBF('tests/cases/no_memofile.dbf', ignore_missing_memofile=True)
 
     # Memo fields should be returned as None.
     record = next(iter(table))

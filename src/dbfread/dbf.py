@@ -2,8 +2,10 @@
 from copy import deepcopy
 import os
 import datetime
+import platform
 import collections
 import io
+import sys
 
 from dbfread.ifiles import ifind
 from dbfread.struct_parser import StructParser
@@ -12,6 +14,13 @@ from dbfread.memo import find_memofile, open_memofile, FakeMemoFile
 from dbfread.codepages import guess_encoding
 from dbfread.dbversions import get_dbversion_string
 from dbfread.exceptions import DBFNotFound, MissingMemoFile
+
+_py_version = (sys.version_info.major, sys.version_info.minor)
+_py_impl = platform.python_implementation()
+if _py_version >= (3, 7) or (_py_version == (3, 6) and _py_impl == 'CPython'):
+    ORDERED_DICT = dict
+else:
+    ORDERED_DICT = collections.OrderedDict
 
 DBFHeader = StructParser(
     'DBFHeader',
@@ -78,7 +87,7 @@ class DBF(object):
     def __init__(self, filename, encoding=None, ignorecase=True,
                  lowernames=False,
                  parserclass=FieldParser,
-                 recfactory=collections.OrderedDict,
+                 recfactory=ORDERED_DICT,
                  load=False,
                  raw=False,
                  ignore_missing_memofile=False,
@@ -221,7 +230,7 @@ class DBF(object):
         if self.encoding is None:
             try:
                 self.encoding = guess_encoding(self.header.language_driver)
-            except LookupError as err:
+            except LookupError:
                 self.encoding = 'ascii'
 
     def _decode_text(self, data):
@@ -312,7 +321,10 @@ class DBF(object):
             # Skip to first record.
             infile.seek(self.header.headerlen, 0)
 
-            if not self.raw:
+            if self.raw:
+                def parse(_, data):
+                    return data
+            else:
                 field_parser = self.parserclass(self, memofile)
                 parse = field_parser.parse
 

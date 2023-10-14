@@ -43,6 +43,7 @@ class DeprecatedDBF(DBF, list):
             return f'<unloaded DBF table {self.filename!r}>'
 
 
+
 def read(filename, load=True, **kwargs):
     warnings.warn("dbfread.read() has been replaced by DBF(load=True)"
                   " and will be removed in 2.2.")

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import os
 from pathlib import Path
 from zipfile import ZipFile
@@ -9,7 +7,7 @@ from dbfread.memo import VFPMemoFile
 import pytest
 import zipp
 
-TESTCASE_PATH = Path(__file__).parent.parent / "testcases"
+TESTCASE_PATH = Path(__file__).parent.parent / "tests/cases"
 
 
 class TestDBF:

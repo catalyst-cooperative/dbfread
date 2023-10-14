@@ -15,21 +15,20 @@ import fnmatch
 
 def ipat(pat):
     """Convert glob pattern to case insensitive form."""
-
     (dirname, pat) = os.path.split(pat)
 
     # Convert '/path/to/test.fpt' => '/path/to/[Tt][Ee][Ss][Tt].[]'
     newpat = ''
-    for c in pat:
-        if c.isalpha:
-            u = c.upper()
-            l = c.lower()
-            if u != l:
-                newpat = newpat + '[' + u + l + ']'
+    for char in pat:
+        if char.isalpha():
+            upper = char.upper()
+            lower = char.lower()
+            if upper != lower:
+                newpat += '[{}{}]'.format(upper, lower)
             else:
-                newpat += c
+                newpat += char
         else:
-            newpat += c
+            newpat += char
 
     newpat = os.path.join(dirname, newpat)
 
@@ -51,7 +50,6 @@ def ifind(pat, ext=None):
 
     Returns filename it a matching file was found, or None if it was not.
     """
-
     if ext:
         pat = os.path.splitext(pat)[0] + ext
 

@@ -1,19 +1,18 @@
 """
 Tests reading from database.
 """
-from pytest import fixture
 import datetime
 from dbfread.dbf import DBF
-
+from pytest import fixture
 
 @fixture
 def table():
-    return DBF('testcases/memotest.dbf')
+    return DBF('tests/cases/memotest.dbf')
 
 
 @fixture
 def loaded_table():
-    return DBF('testcases/memotest.dbf', load=True)
+    return DBF('tests/cases/memotest.dbf', load=True)
 
 
 # This relies on people.dbf having this exact content.
